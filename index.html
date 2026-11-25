@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#14532d"><title>قسّم الحساب</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#0b1f17;color:#ecfdf5;font-family:system-ui,"Segoe UI",Tahoma,sans-serif;padding:14px 14px 60px;max-width:480px;margin:auto}
+h1{margin:4px 0 12px;font-size:22px}h2{font-size:15px;margin:16px 0 8px;color:#86efac}
+.card{background:#12372a;border-radius:16px;padding:12px}
+.row{display:flex;gap:8px;margin-bottom:8px}
+input{flex:1;min-width:0;padding:11px;border-radius:10px;border:0;background:#0b1f17;color:#fff;font-size:16px}
+.btn{padding:11px 14px;border-radius:10px;border:0;background:#22c55e;color:#052e16;font-weight:800;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.ch{padding:7px 12px;border-radius:99px;background:#0b1f17;border:1px solid #166534;color:#bbf7d0;font-size:14px}
+.ch.on{background:#22c55e;color:#052e16;font-weight:800;border-color:#22c55e}
+.it{background:#0b1f17;border-radius:12px;padding:10px;margin-bottom:8px}
+.it .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.x{background:none;border:0;color:#fca5a5;font-size:18px}
+.pp{display:flex;justify-content:space-between;padding:10px 4px;border-bottom:1px solid #166534;font-size:17px}
+.pp b{color:#fde047}
+.tot{display:flex;justify-content:space-between;font-size:13px;opacity:.85;padding:3px 4px}
+.big{font-size:20px;font-weight:800;color:#fde047;opacity:1}
+</style></head><body>
+<h1>🧾 قسّم الحساب</h1>
+<h2>الأشخاص</h2><div class="card"><div class="row"><input id="pn" placeholder="اسم الشخص"><button class="btn" id="pa">إضافة</button></div><div class="chips" id="pl"></div></div>
+<h2>الأصناف</h2><div class="card"><div class="row"><input id="in" placeholder="الصنف"><input id="ip" type="number" inputmode="decimal" placeholder="السعر" style="max-width:100px"><button class="btn" id="ia">+</button></div><div id="il"></div><div style="font-size:12px;opacity:.7">اضغط على أسماء الأشخاص تحت كل صنف لتحديد من شاركه</div></div>
+<h2>الضريبة والخدمة</h2><div class="card"><div class="row"><input id="tx" type="number" inputmode="decimal" placeholder="ضريبة %" value="14"><input id="sv" type="number" inputmode="decimal" placeholder="خدمة %" value="12"><input id="tp" type="number" inputmode="decimal" placeholder="إكرامية" value="0"></div></div>
+<h2>النتيجة</h2><div class="card" id="res"></div>
+<script>
+const $=i=>document.getElementById(i),f=n=>(Math.round(n*100)/100).toLocaleString('ar-EG',{minimumFractionDigits:2,maximumFractionDigits:2});
+let D=JSON.parse(localStorage.getItem('split8')||'null')||{p:[],i:[],tx:14,sv:12,tp:0};
+const sv=()=>{D.tx=+$('tx').value||0;D.sv=+$('sv').value||0;D.tp=+$('tp').value||0;localStorage.setItem('split8',JSON.stringify(D))};
+function R(){
+ $('pl').innerHTML='';D.p.forEach((n,i)=>{const b=document.createElement('button');b.className='ch';b.textContent=n+' ✕';b.onclick=()=>{D.p.splice(i,1);D.i.forEach(it=>{it.w=it.w.filter(x=>x!=i).map(x=>x>i?x-1:x)});sv();R()};$('pl').appendChild(b)});
+ $('il').innerHTML='';D.i.forEach((it,k)=>{const d=document.createElement('div');d.className='it';d.innerHTML='<div class="top"><span></span><button class="x">🗑</button></div><div class="chips"></div>';d.querySelector('span').textContent=it.n+' · '+f(it.p);d.querySelector('.x').onclick=()=>{D.i.splice(k,1);sv();R()};
+  const ch=d.querySelector('.chips');const all=document.createElement('button');all.className='ch'+(it.w.length==D.p.length&&D.p.length?' on':'');all.textContent='الكل';all.onclick=()=>{it.w=it.w.length==D.p.length?[]:D.p.map((_,i)=>i);sv();R()};ch.appendChild(all);
+  D.p.forEach((n,i)=>{const b=document.createElement('button');b.className='ch'+(it.w.includes(i)?' on':'');b.textContent=n;b.onclick=()=>{it.w=it.w.includes(i)?it.w.filter(x=>x!=i):[...it.w,i];sv();R()};ch.appendChild(b)});$('il').appendChild(d)});
+ const sub=D.p.map(()=>0);let unassigned=0,total=0;D.i.forEach(it=>{total+=it.p;if(!it.w.length)unassigned+=it.p;else it.w.forEach(i=>sub[i]+=it.p/it.w.length)});
+ const mult=1+(D.tx+D.sv)/100,assigned=total-unassigned,tipEach=D.p.length?D.tp/D.p.length:0;
+ let h='';D.p.forEach((n,i)=>{h+=`<div class="pp"><span>${n.replace(/</g,'&lt;')}</span><b>${f(sub[i]*mult+tipEach)}</b></div>`});
+ if(!D.p.length)h='<div style="opacity:.7">أضف الأشخاص والأصناف أولاً</div>';
+ h+=`<div class="tot"><span>مجموع الأصناف</span><span>${f(total)}</span></div><div class="tot"><span>ضريبة وخدمة</span><span>${f(total*(D.tx+D.sv)/100)}</span></div><div class="tot"><span>إكرامية</span><span>${f(D.tp)}</span></div><div class="tot big"><span>الإجمالي</span><span>${f(total*mult+D.tp)}</span></div>`;
+ if(unassigned>0)h+=`<div class="tot" style="color:#fca5a5"><span>أصناف بدون أشخاص</span><span>${f(unassigned)}</span></div>`;
+ $('res').innerHTML=h}
+$('pa').onclick=()=>{const n=$('pn').value.trim();if(n){D.p.push(n);$('pn').value='';sv();R()}};
+$('ia').onclick=()=>{const n=$('in').value.trim(),p=parseFloat($('ip').value);if(n&&p>0){D.i.push({n,p,w:D.p.map((_,i)=>i)});$('in').value=$('ip').value='';sv();R()}};
+['tx','sv','tp'].forEach(i=>{$(i).value=D[i];$(i).oninput=()=>{sv();R()}});
+R();
+</script></body></html>
