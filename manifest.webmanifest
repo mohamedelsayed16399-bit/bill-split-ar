@@ -1,0 +1,32 @@
+{
+ "name": "قسّم الحساب",
+ "short_name": "قسّم الحساب",
+ "description": "ضيف الأشخاص والأصناف والضريبة والخدمة، وشوف كل واحد عليه كام. مجاني وبيشتغل على الموبايل.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "lang": "ar",
+ "dir": "rtl",
+ "background_color": "#14532d",
+ "theme_color": "#14532d",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

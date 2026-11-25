@@ -17,7 +17,25 @@ input{flex:1;min-width:0;padding:11px;border-radius:10px;border:0;background:#0b
 .pp b{color:#fde047}
 .tot{display:flex;justify-content:space-between;font-size:13px;opacity:.85;padding:3px 4px}
 .big{font-size:20px;font-weight:800;color:#fde047;opacity:1}
-</style></head><body>
+</style><meta name="description" content="ضيف الأشخاص والأصناف والضريبة والخدمة، وشوف كل واحد عليه كام. مجاني وبيشتغل على الموبايل.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:title" content="قسّم الحساب — قسّم فاتورة المطعم بالعدل">
+<meta property="og:description" content="ضيف الأشخاص والأصناف والضريبة والخدمة، وشوف كل واحد عليه كام. مجاني وبيشتغل على الموبايل.">
+<meta property="og:url" content="https://mohamedelsayed16399-bit.github.io/bill-split-ar/">
+<meta property="og:image" content="https://mohamedelsayed16399-bit.github.io/bill-split-ar/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="قسّم الحساب — قسّم فاتورة المطعم بالعدل">
+<meta name="twitter:description" content="ضيف الأشخاص والأصناف والضريبة والخدمة، وشوف كل واحد عليه كام. مجاني وبيشتغل على الموبايل.">
+<meta name="twitter:image" content="https://mohamedelsayed16399-bit.github.io/bill-split-ar/og.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+</head><body>
 <h1>🧾 قسّم الحساب</h1>
 <h2>الأشخاص</h2><div class="card"><div class="row"><input id="pn" placeholder="اسم الشخص"><button class="btn" id="pa">إضافة</button></div><div class="chips" id="pl"></div></div>
 <h2>الأصناف</h2><div class="card"><div class="row"><input id="in" placeholder="الصنف"><input id="ip" type="number" inputmode="decimal" placeholder="السعر" style="max-width:100px"><button class="btn" id="ia">+</button></div><div id="il"></div><div style="font-size:12px;opacity:.7">اضغط على أسماء الأشخاص تحت كل صنف لتحديد من شاركه</div></div>
@@ -43,4 +61,20 @@ $('pa').onclick=()=>{const n=$('pn').value.trim();if(n){D.p.push(n);$('pn').valu
 $('ia').onclick=()=>{const n=$('in').value.trim(),p=parseFloat($('ip').value);if(n&&p>0){D.i.push({n,p,w:D.p.map((_,i)=>i)});$('in').value=$('ip').value='';sv();R()}};
 ['tx','sv','tp'].forEach(i=>{$(i).value=D[i];$(i).oninput=()=>{sv();R()}});
 R();
-</script></body></html>
+</script><div id="mkt-share" style="text-align:center;margin:22px auto 30px;max-width:480px;padding:0 14px;font-family:system-ui,'Segoe UI',Tahoma,sans-serif;color:#9aa3b2;font-size:13px;line-height:1.9">
+<button id="mkt-btn" type="button" style="background:#22c55e;color:#fff;border:0;border-radius:12px;padding:11px 22px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer">📤 شارك التطبيق مع صحابك</button>
+<div style="margin-top:10px">صُنع في مصر 🇪🇬</div>
+</div>
+<script>
+(function(){
+ var u="https://mohamedelsayed16399-bit.github.io/bill-split-ar/",t="\u0642\u0633\u0651\u0645 \u0627\u0644\u062d\u0633\u0627\u0628 \u2014 \u0642\u0633\u0651\u0645 \u0641\u0627\u062a\u0648\u0631\u0629 \u0627\u0644\u0645\u0637\u0639\u0645 \u0628\u0627\u0644\u0639\u062f\u0644",x="\u0642\u0633\u0651\u0645 \u062d\u0633\u0627\u0628 \u0627\u0644\u0645\u0637\u0639\u0645 \u0628\u0627\u0644\u0639\u062f\u0644 \u0645\u0639 \u0635\u062d\u0627\u0628\u0643 \u0628\u0627\u0644\u062a\u0637\u0628\u064a\u0642 \u062f\u0647";
+ var b=document.getElementById('mkt-btn');
+ if(b)b.addEventListener('click',function(){
+  if(navigator.share){navigator.share({title:t,text:x,url:u}).catch(function(){});}
+  else{window.open('https://wa.me/?text='+encodeURIComponent(x+' '+u),'_blank');}
+ });
+ if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
+})();
+</script>
+</body></html>
+
